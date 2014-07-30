@@ -1,6 +1,7 @@
 require 'rspec'
 require 'game'
 require 'word'
+require 'visual'
 
 describe('game') do
   used = ['f','l','n']
@@ -20,7 +21,7 @@ describe('game') do
     test_game.used_letters = used
     test_game.word = word
     test_game.hidden_word = hidden
-    expect(test_game.letter("f")).to eq("You've already tried that letter")
+    expect(test_game.letter("f")).to eq("used")
   end
   it('pushes the correctly guessed letter into the hidden-word array') do
     test_game = Game.new
@@ -28,6 +29,20 @@ describe('game') do
     test_game.word = word
     test_game.hidden_word = hidden
     expect(test_game.letter("m")).to eq(['_','m','_'])
+  end
+  it('returns false when guessing the wrong letter') do
+    test_game = Game.new
+    test_game.used_letters = used
+    test_game.word = word
+    test_game.hidden_word = hidden
+    expect(test_game.letter("q")).to eq(false)
+  end
+  it('returns victory when player guesses all the letters') do
+    test_game = Game.new
+    test_game.used_letters = used
+    test_game.word = word
+    test_game.hidden_word = ['b','m','_']
+    expect(test_game.letter("w")).to eq(true)
   end
 end
 

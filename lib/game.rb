@@ -7,9 +7,12 @@ class Game
 
   def initialize
     word = Word.new
+    visual = Visual.new
     @word = word.generate.split('')
     @used_letters = []
     @counter = 0
+    @category = word.category
+    @score = visual.drawman
   end
 
   def hidden_word
@@ -24,26 +27,39 @@ class Game
     @word
   end
 
+  def category
+    @category = @category
+  end
+
+  def score
+    @score = @score
+  end
+
   def letter(input)
-    snapshot = @hidden_word
+    @correct_guess = 0
 
     if @used_letters.include?(input)
-      "You've already tried that letter"
+      "used"
     else
       @word.each_with_index do |x, index|
         if input == x
           @hidden_word[index] = x
           @used_letters << x
+          @correct_guess = 1
         end
       end
-      if snapshot != @hidden_word
+      if @correct_guess == 0
+        @used_letters << input
         false
       else
+        if !@hidden_word.include?("_")
+          true
+        else
         @hidden_word
+        end
       end
     end
   end
-
 end
 
 # test_game = Game.new
